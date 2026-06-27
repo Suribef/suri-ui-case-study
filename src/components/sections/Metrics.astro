@@ -1,0 +1,88 @@
+---
+const metrics = [
+  {
+    value: '9',
+    label: 'Components',
+    sublabel: 'Button, Badge, Spinner, Input, Textarea, Select, Card, Stack, Divider',
+    color: 'primary'
+  },
+  {
+    value: '118',
+    label: 'Tests passing',
+    sublabel: '100% green on every commit via GitHub Actions CI',
+    color: 'success'
+  },
+  {
+    value: '20+',
+    label: 'ADRs written',
+    sublabel: 'Every non-obvious decision documented with context and trade-offs',
+    color: 'info'
+  },
+  {
+    value: '0',
+    label: 'Runtime dependencies',
+    sublabel: 'React is a peer dependency. No third-party runtime code in the bundle.',
+    color: 'warning'
+  }
+]
+---
+
+<section class="section metrics-section">
+  <div class="container">
+    <p class="section-label">By the numbers</p>
+    <div class="metrics-grid">
+      {metrics.map(m => (
+        <div class={`metric-card metric-card--${m.color}`}>
+          <span class="metric-value">{m.value}</span>
+          <span class="metric-label">{m.label}</span>
+          <span class="metric-sublabel">{m.sublabel}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--cs-space-4);
+}
+
+.metric-card {
+  background: var(--cs-bg-card);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-lg);
+  padding: var(--cs-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-2);
+  transition: border-color 200ms ease;
+}
+
+.metric-card:hover { border-color: var(--cs-border-default); }
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.metric-card--primary .metric-value { color: var(--cs-color-primary); }
+.metric-card--success .metric-value { color: var(--cs-color-success); }
+.metric-card--info    .metric-value { color: var(--cs-color-info); }
+.metric-card--warning .metric-value { color: var(--cs-color-warning); }
+
+.metric-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cs-text-primary);
+}
+
+.metric-sublabel {
+  font-size: 0.8rem;
+  color: var(--cs-text-muted);
+  line-height: 1.5;
+}
+</style>

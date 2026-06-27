@@ -1,0 +1,64 @@
+---
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <p class="footer-copy">
+        Built by
+        <a href="https://suribef.github.io" target="_blank">Sergio Uribe</a>
+        · Ingeniería en Computación, IPN ESIME Culhuacán
+      </p>
+      <div class="footer-links">
+        <a href="https://github.com/Suribef/suri-ui" target="_blank">
+          GitHub
+        </a>
+        <a href="https://www.npmjs.com/package/@suribef/suri-ui" target="_blank">
+          npm
+        </a>
+        <a href="https://linkedin.com/in/sergio-urifre" target="_blank">
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  border-top: 1px solid var(--cs-border-subtle);
+  padding: var(--cs-space-8) 0;
+  margin-top: var(--cs-space-16);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--cs-space-4);
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--cs-text-muted);
+  margin: 0;
+}
+
+.footer-copy a {
+  color: var(--cs-text-secondary);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--cs-space-6);
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--cs-text-muted);
+  text-decoration: none;
+  transition: color 120ms;
+}
+
+.footer-links a:hover { color: var(--cs-text-secondary); }
+</style>

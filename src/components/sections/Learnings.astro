@@ -1,0 +1,76 @@
+---
+const learnings = [
+  {
+    number: '01',
+    title: "A library's primary customer is not the end user — it's the bundler",
+    body: "Every decision about ESM/CJS formats, sideEffects: false, and peer dependencies exists to make webpack, Vite, and esbuild in the consumer's project work correctly. Getting tree-shaking right requires thinking about how your output is consumed, not just how it's written."
+  },
+  {
+    number: '02',
+    title: 'Accessibility is architecture, not polish',
+    body: 'Decisions like aria-live region mounting strategy, the distinction between aria-disabled and native disabled, and the semantic choice of <hr> vs <div role="separator"> affect how the component behaves for 15% of users. These decisions cannot be added as an afterthought — they change the component API.'
+  },
+  {
+    number: '03',
+    title: 'Documentation written after the fact is always incomplete',
+    body: 'Writing ADRs during development forced explicit reasoning at decision time. Decisions that seemed obvious in the moment revealed important context when written down. A decision that takes 30 seconds to make can take 30 minutes to reconstruct two weeks later.'
+  }
+]
+---
+
+<section class="section">
+  <div class="container">
+    <p class="section-label">Retrospective</p>
+    <h2 class="section-title">What I learned</h2>
+
+    <div class="learnings">
+      {learnings.map(l => (
+        <div class="learning">
+          <span class="learning-number">{l.number}</span>
+          <div class="learning-content">
+            <h3 class="learning-title">{l.title}</h3>
+            <p class="learning-body">{l.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.learnings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-8);
+}
+
+.learning {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--cs-space-6);
+  align-items: start;
+}
+
+.learning-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--cs-border-default);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.learning-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-3);
+  line-height: 1.4;
+}
+
+.learning-body {
+  font-size: 0.9rem;
+  color: var(--cs-text-secondary);
+  margin: 0;
+  line-height: 1.8;
+}
+</style>

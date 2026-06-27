@@ -1,0 +1,127 @@
+---
+import { ButtonDemo, BadgeDemo, FormDemo, CardDemo } from '../ui/LiveDemo'
+
+const demos = [
+  {
+    id: 'button',
+    title: 'Button',
+    description: 'Four variants, three sizes, loading state with aria-disabled, forwardRef compatible.',
+    note: 'Click "Save changes" to see the loading state. The button stays focusable via keyboard while loading — unlike native disabled.'
+  },
+  {
+    id: 'badge',
+    title: 'Badge & Dot',
+    description: 'Five semantic variants. Dot mode for status indicators — requires aria-label or triggers a dev warning.',
+    note: null
+  },
+  {
+    id: 'form',
+    title: 'Input with validation',
+    description: 'Live validation example. Error state uses aria-invalid + aria-live so screen readers announce the message dynamically.',
+    note: 'Type an invalid email to see the error. The description container is always mounted — aria-live registers before the error arrives.'
+  },
+  {
+    id: 'card',
+    title: 'Card composition',
+    description: 'Compound component pattern. Card.Header, Card.Body, Card.Footer with optional dividers.',
+    note: 'Card has no padding — subcomponents own their spacing. This allows full-bleed images without consumer CSS overrides.'
+  }
+]
+---
+
+<section class="section">
+  <div class="container container--wide">
+    <p class="section-label">Live demos</p>
+    <h2 class="section-title">Components in action</h2>
+    <p class="section-subtitle">
+      These are the actual components from the published npm package,
+      rendered here in production.
+    </p>
+
+    <div class="showcase-grid">
+      {demos.map(demo => (
+        <div class="showcase-card">
+          <div class="showcase-preview">
+            {demo.id === 'button' && <ButtonDemo client:load />}
+            {demo.id === 'badge'  && <BadgeDemo  client:load />}
+            {demo.id === 'form'   && <FormDemo   client:load />}
+            {demo.id === 'card'   && <CardDemo   client:load />}
+          </div>
+          <div class="showcase-info">
+            <h3 class="showcase-title">{demo.title}</h3>
+            <p class="showcase-description">{demo.description}</p>
+            {demo.note && (
+              <p class="showcase-note">
+                <span class="showcase-note-icon">ℹ</span>
+                {demo.note}
+              </p>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: var(--cs-space-6);
+}
+
+.showcase-card {
+  background: var(--cs-bg-card);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-lg);
+  overflow: hidden;
+  transition: border-color 200ms ease;
+}
+
+.showcase-card:hover { border-color: var(--cs-border-default); }
+
+.showcase-preview {
+  background: #f9fafb;
+  padding: var(--cs-space-8);
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.showcase-info {
+  padding: var(--cs-space-6);
+}
+
+.showcase-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-2);
+}
+
+.showcase-description {
+  font-size: 0.875rem;
+  color: var(--cs-text-secondary);
+  margin: 0 0 var(--cs-space-3);
+  line-height: 1.6;
+}
+
+.showcase-note {
+  display: flex;
+  gap: var(--cs-space-2);
+  font-size: 0.8rem;
+  color: var(--cs-text-muted);
+  background: var(--cs-bg-elevated);
+  border-radius: var(--cs-radius-sm);
+  padding: var(--cs-space-3);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.showcase-note-icon {
+  color: var(--cs-color-info);
+  flex-shrink: 0;
+}
+</style>

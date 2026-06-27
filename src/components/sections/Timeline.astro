@@ -1,0 +1,253 @@
+---
+const phases = [
+  {
+    phase: '01',
+    title: 'Foundation & Architecture',
+    duration: 'Week 1',
+    items: [
+      'Project setup: Vite library mode, dual ESM/CJS output',
+      'Design token system with CSS custom properties',
+      'CI/CD pipeline with GitHub Actions',
+      'Button component — first full implementation with a11y'
+    ],
+    decisions: [
+      'CSS Modules over Tailwind (ADR-001)',
+      'ESM/CJS dual format with .cjs extension (ADR-002)',
+      'process.env.NODE_ENV preserved via @rollup/plugin-replace (ADR-006)'
+    ]
+  },
+  {
+    phase: '02',
+    title: 'Feedback Components',
+    duration: 'Week 1–2',
+    items: [
+      'Badge with dot mode and dev-time a11y warnings',
+      'Spinner with role="status" and configurable aria-live',
+      'Semantic token extension for success/warning/info'
+    ],
+    decisions: [
+      'aria-disabled vs disabled native in loading state (ADR-003)',
+      'Spinner standalone, not Button dependency (ADR-007)',
+      'aria-live polite vs assertive as configurable prop (ADR-008)'
+    ]
+  },
+  {
+    phase: '03',
+    title: 'Form Components',
+    duration: 'Week 2–3',
+    items: [
+      'Input with useId() for SSR-safe label association',
+      'Textarea with autoResize via useCombinedRef',
+      'Select: native implementation with appearance reset'
+    ],
+    decisions: [
+      'useId() over UUID for SSR safety (ADR-009)',
+      'aria-describedby always mounted for aria-live (ADR-012)',
+      'Native select over custom listbox (ADR-020)'
+    ]
+  },
+  {
+    phase: '04',
+    title: 'Layout & Composition',
+    duration: 'Week 3',
+    items: [
+      'Card with compound component pattern (Card.Header/Body/Footer)',
+      'Stack with gap as CSS custom property inline',
+      'Divider with semantic/decorative/vertical modes'
+    ],
+    decisions: [
+      'Polymorphic as prop with bounded union (ADR-013)',
+      'Object.assign for compound components (ADR-014)',
+      'Padding in subcomponents, not Card root (ADR-015)'
+    ]
+  },
+  {
+    phase: '05',
+    title: 'Documentation & Release',
+    duration: 'Week 4',
+    items: [
+      'Storybook 10 with autodocs and a11y addon',
+      'Representative stories (4–6 per component)',
+      'README with API reference and theming guide',
+      'Published to npm as @suribef/suri-ui v0.1.0'
+    ],
+    decisions: [
+      'Representative stories over exhaustive (editorial decision)',
+      'autodocs from TypeScript types as single source of truth'
+    ]
+  }
+]
+---
+
+<section class="section" id="timeline">
+  <div class="container">
+    <p class="section-label">Development roadmap</p>
+    <h2 class="section-title">How it was built</h2>
+    <p class="section-subtitle">
+      Five phases over four weeks. Each phase closed with a commit,
+      a passing test suite, and at least one documented decision.
+    </p>
+
+    <div class="timeline">
+      {phases.map((phase) => (
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <span class="timeline-phase">{phase.phase}</span>
+            <div class="timeline-line" />
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">{phase.title}</h3>
+              <span class="timeline-duration">{phase.duration}</span>
+            </div>
+            <ul class="timeline-items">
+              {phase.items.map(item => (
+                <li class="timeline-item-text">{item}</li>
+              ))}
+            </ul>
+            <div class="timeline-decisions">
+              <span class="timeline-decisions-label">Key decisions</span>
+              <div class="timeline-decisions-list">
+                {phase.decisions.map(d => (
+                  <span class="timeline-decision-tag">{d}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--cs-space-6);
+}
+
+.timeline-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.timeline-phase {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--cs-bg-elevated);
+  border: 1px solid var(--cs-color-primary-border);
+  color: var(--cs-color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-line {
+  flex: 1;
+  width: 1px;
+  background: var(--cs-border-subtle);
+  margin: var(--cs-space-2) 0;
+}
+
+.timeline-item:last-child .timeline-line {
+  display: none;
+}
+
+.timeline-content {
+  padding-bottom: var(--cs-space-12);
+}
+
+.timeline-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cs-space-3);
+  margin-bottom: var(--cs-space-4);
+  flex-wrap: wrap;
+}
+
+.timeline-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cs-text-primary);
+  margin: 0;
+}
+
+.timeline-duration {
+  font-size: 0.8rem;
+  color: var(--cs-text-muted);
+  background: var(--cs-bg-elevated);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--cs-border-subtle);
+}
+
+.timeline-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--cs-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-2);
+}
+
+.timeline-item-text {
+  font-size: 0.9rem;
+  color: var(--cs-text-secondary);
+  padding-left: var(--cs-space-4);
+  position: relative;
+}
+
+.timeline-item-text::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--cs-text-muted);
+}
+
+.timeline-decisions {
+  background: var(--cs-bg-elevated);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-md);
+  padding: var(--cs-space-4);
+}
+
+.timeline-decisions-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--cs-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--cs-space-3);
+}
+
+.timeline-decisions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-2);
+}
+
+.timeline-decision-tag {
+  font-size: 0.78rem;
+  color: var(--cs-text-accent);
+  background: var(--cs-color-primary-glow);
+  border: 1px solid var(--cs-color-primary-border);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+</style>

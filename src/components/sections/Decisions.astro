@@ -1,0 +1,222 @@
+---
+const decisions = [
+  {
+    id: 'ADR-002',
+    category: 'Distribution',
+    title: 'ESM uses .js, CJS uses .cjs extension',
+    problem: 'With "type": "module" in package.json, Node.js treats all .js files as ESM. A suri-ui.cjs.js file would break require() in legacy bundlers.',
+    decision: 'fileName: (format) => format === "cjs" ? "suri-ui.cjs" : "suri-ui.js"',
+    impact: 'Next.js App Router and Webpack 4 consumers can require() the library without configuration.',
+    type: 'critical'
+  },
+  {
+    id: 'ADR-003',
+    category: 'Accessibility',
+    title: 'Loading state uses aria-disabled, not native disabled',
+    problem: 'Native disabled removes the element from the tab order. During a 3-second payment submission, the user loses focus context and cannot understand why they cannot proceed.',
+    decision: 'aria-disabled="true" + aria-busy="true" + onClick preventDefault. Native disabled only for truly unavailable actions.',
+    impact: 'Keyboard users can Tab to a loading button and hear "busy" from their screen reader.',
+    type: 'accessibility'
+  },
+  {
+    id: 'ADR-005',
+    category: 'Architecture',
+    title: 'Design tokens imported once in src/index.ts',
+    problem: '@importing tokens inside each .module.css causes Vite to inject the CSS custom properties N times in the consumer bundle — once per component imported.',
+    decision: 'Single import in src/index.ts. Never inside .module.css files.',
+    impact: 'Zero CSS duplication regardless of how many components the consumer imports.',
+    type: 'architecture'
+  },
+  {
+    id: 'ADR-012',
+    category: 'Accessibility',
+    title: 'aria-live region always mounted, never conditionally rendered',
+    problem: 'If the error span is created with content already inside, the browser has no chance to register the live region. The announcement never fires.',
+    decision: 'Always render the description span. Use CSS :empty { display: none } to hide it visually when empty.',
+    impact: 'Dynamic form validation errors are reliably announced by VoiceOver and NVDA.',
+    type: 'accessibility'
+  },
+  {
+    id: 'ADR-013',
+    category: 'TypeScript',
+    title: 'Polymorphic as prop uses bounded union, not full generics',
+    problem: 'Full polymorphic components with ElementType generics require explicit casts that TypeScript strict rejects when combined with forwardRef.',
+    decision: 'type CardElement = "div" | "article" | "section" | "main". Covers 95% of real cases. Full polymorphism documented for v2.0.',
+    impact: 'Clean TypeScript without workarounds. Consumer gets autocomplete for the four valid elements.',
+    type: 'architecture'
+  },
+  {
+    id: 'ADR-020',
+    category: 'UX Decision',
+    title: 'Select uses native <select>, not a custom listbox',
+    problem: 'A correctly implemented custom listbox (keyboard nav, ARIA, focus management) is weeks of work. Most implementations ship with subtle bugs that degrade the experience for keyboard and screen reader users.',
+    decision: 'Native <select> with appearance: none and SVG chevron via data URI. Activates the native picker on iOS/Android.',
+    impact: 'Mobile users get the OS picker. Keyboard and screen reader support is guaranteed by the browser.',
+    type: 'tradeoff'
+  }
+]
+
+const typeConfig: Record<string, { label: string; color: string }> = {
+  critical:      { label: 'Critical',      color: 'danger' },
+  accessibility: { label: 'A11y',          color: 'info' },
+  architecture:  { label: 'Architecture',  color: 'primary' },
+  tradeoff:      { label: 'Trade-off',     color: 'warning' }
+}
+---
+
+<section class="section" id="decisions">
+  <div class="container">
+    <p class="section-label">Architecture Decision Records</p>
+    <h2 class="section-title">Key engineering decisions</h2>
+    <p class="section-subtitle">
+      Every non-obvious decision was documented with context,
+      trade-offs, and consequences. Six representative decisions
+      from twenty total ADRs.
+    </p>
+
+    <div class="decisions-grid">
+      {decisions.map(d => {
+        const cfg = typeConfig[d.type]
+        return (
+          <article class="decision-card">
+            <div class="decision-header">
+              <div class="decision-meta">
+                <span class="decision-id">{d.id}</span>
+                <span class={`decision-type decision-type--${cfg.color}`}>
+                  {cfg.label}
+                </span>
+              </div>
+              <span class="decision-category">{d.category}</span>
+            </div>
+
+            <h3 class="decision-title">{d.title}</h3>
+
+            <div class="decision-body">
+              <div class="decision-block">
+                <span class="decision-block-label">Problem</span>
+                <p class="decision-block-text">{d.problem}</p>
+              </div>
+              <div class="decision-block">
+                <span class="decision-block-label">Decision</span>
+                <code class="decision-code">{d.decision}</code>
+              </div>
+              <div class="decision-block">
+                <span class="decision-block-label">Impact</span>
+                <p class="decision-block-text decision-block-text--impact">
+                  {d.impact}
+                </p>
+              </div>
+            </div>
+          </article>
+        )
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+.decisions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: var(--cs-space-4);
+}
+
+.decision-card {
+  background: var(--cs-bg-card);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-lg);
+  padding: var(--cs-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-4);
+  transition: border-color 200ms ease;
+}
+
+.decision-card:hover { border-color: var(--cs-border-default); }
+
+.decision-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.decision-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+}
+
+.decision-id {
+  font-size: 0.75rem;
+  font-family: var(--cs-font-mono);
+  color: var(--cs-text-muted);
+}
+
+.decision-type {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.decision-type--primary  { background: var(--cs-color-primary-glow);  color: #818cf8; border: 1px solid var(--cs-color-primary-border); }
+.decision-type--info     { background: rgba(59,130,246,0.1);           color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.decision-type--warning  { background: rgba(245,158,11,0.1);           color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+.decision-type--danger   { background: rgba(239,68,68,0.1);            color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+.decision-category {
+  font-size: 0.75rem;
+  color: var(--cs-text-muted);
+}
+
+.decision-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cs-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.decision-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-3);
+}
+
+.decision-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-1);
+}
+
+.decision-block-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cs-text-muted);
+}
+
+.decision-block-text {
+  font-size: 0.82rem;
+  color: var(--cs-text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.decision-block-text--impact {
+  color: var(--cs-color-success);
+}
+
+.decision-code {
+  font-size: 0.78rem;
+  background: var(--cs-bg-elevated);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-sm);
+  padding: var(--cs-space-3);
+  color: var(--cs-text-accent);
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+</style>

@@ -1,0 +1,38 @@
+---
+import Hero from '../components/sections/Hero.astro'
+import Metrics from '../components/sections/Metrics.astro'
+import Timeline from '../components/sections/Timeline.astro'
+import ComponentShowcase from '../components/sections/ComponentShowcase.astro'
+import Decisions from '../components/sections/Decisions.astro'
+import BugLog from '../components/sections/BugLog.astro'
+import Learnings from '../components/sections/Learnings.astro'
+import Header from '../components/layout/Header.astro'
+import Footer from '../components/layout/Footer.astro'
+import '../styles/global.css'
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+      content="Engineering case study: building SuriUI, a React component
+               library with TypeScript, CSS Modules, and 20+ ADRs." />
+    <title>SuriUI — Engineering Case Study | Sergio Uribe</title>
+    <link rel="icon" type="image/svg+xml" href="/suri-ui/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <Hero />
+      <Metrics />
+      <Timeline />
+      <ComponentShowcase />
+      <Decisions />
+      <BugLog />
+      <Learnings />
+    </main>
+    <Footer />
+  </body>
+</html>
